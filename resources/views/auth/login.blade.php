@@ -36,10 +36,9 @@
         <div class="card w-full max-w-sm bg-base-100 shadow-lg">
             <div class="card-body p-5 md:p-6">
                 <div class="text-center mb-5">
-                    <img src="https://images.unsplash.com/photo-1599687351724-dfa3c4ff81b1?auto=format&fit=crop&q=80&w=150&h=150"
-                        class="rounded-full w-20 h-20 mx-auto mb-3 object-cover border-4 border-primary" alt="PSU Logo">
+                    <img src="{{ asset('images/psu-logo.png') }}" alt="psu logo" id="psu-logo">
+                    <br>
                     <h2 class="text-2xl md:text-3xl font-bold font-serif text-primary">Student Login</h2>
-                    <p class="text-xs md:text-sm text-base-content/70 mt-1">Sign in to access your account</p>
                 </div>
 
                 <form action="{{ route('login.submit') }}" method="POST">

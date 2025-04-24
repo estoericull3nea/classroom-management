@@ -10,10 +10,10 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-        .font-serif {
-            font-family: 'Merriweather', serif;
+        * {
+            font-family: "Poppins", sans-serif;
         }
     </style>
 </head>
@@ -57,9 +57,9 @@
             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80"
                 alt="Students using digital tools" class="max-w-full md:max-w-sm rounded-lg shadow-2xl mb-6 lg:mb-0" />
             <div>
-                <h1 class="text-3xl md:text-5xl font-bold font-serif text-primary text-center lg:text-left">
+                <h1 class="text-3xl md:text-5xl font-bold  text-primary text-center lg:text-left">
                     ClassManagement</h1>
-                <h2 class="text-xl md:text-2xl mt-2 font-serif text-center lg:text-left">A Digital Solution for Academic
+                <h2 class="text-xl md:text-2xl mt-2  text-center lg:text-left">A Digital Solution for Academic
                     Transparency</h2>
                 <p class="py-4 md:py-6 text-center lg:text-left">Pangasinan State University's innovative platform
                     designed to enhance communication between students, faculty, and administration. Monitor grades,
@@ -74,7 +74,7 @@
 
     <!-- Features Section -->
     <div class="py-10 md:py-16 bg-base-200">
-        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 font-serif">Key Features</h2>
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 ">Key Features</h2>
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <div class="card bg-base-100 shadow-xl">
@@ -121,7 +121,7 @@
     <!-- Testimonials -->
     <div class="py-10 md:py-16 bg-base-100">
         <div class="container mx-auto px-4">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 font-serif">What Our Community Says</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 ">What Our Community Says</h2>
             <div class="grid grid-cols-1 gap-6 max-w-lg mx-auto md:max-w-none md:grid-cols-2">
                 <div class="card bg-base-200 shadow-md">
                     <div class="card-body p-4 md:p-6">
@@ -182,7 +182,7 @@
     <!-- CTA Section -->
     <div class="py-8 md:py-16 bg-primary text-primary-content">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4 font-serif">Ready to Transform Your Academic
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4 ">Ready to Transform Your Academic
                 Experience?</h2>
             <p class="mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-base">Join thousands of students and faculty
                 members already benefiting from PSU's ClassManagement system.</p>

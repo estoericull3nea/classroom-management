@@ -30,9 +30,9 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')
-    ->middleware(['auth','admin'])
+    ->middleware(['auth', 'admin'])
     ->name('admin.')
-    ->group(function() {
+    ->group(function () {
 
         // Admin Dashboard
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
@@ -85,9 +85,9 @@ Route::prefix('admin')
 |--------------------------------------------------------------------------
 */
 Route::prefix('faculty')
-    ->middleware(['auth','faculty'])
+    ->middleware(['auth', 'faculty'])
     ->name('faculty.')
-    ->group(function() {
+    ->group(function () {
         Route::get('/dashboard', [FacultyController::class, 'index'])->name('dashboard');
 
         // Class Management
@@ -96,18 +96,22 @@ Route::prefix('faculty')
 
         // Syllabus
         Route::get('/syllabi', [FacultyController::class, 'listSyllabi'])->name('syllabus.index');
-        Route::get('/syllabus/{sectionId}/{subjectId}/{schoolYear}/{semester}/upload',
-            [FacultyController::class, 'uploadSyllabus'])
+        Route::get(
+            '/syllabus/{sectionId}/{subjectId}/{schoolYear}/{semester}/upload',
+            [FacultyController::class, 'uploadSyllabus']
+        )
             ->name('syllabus.upload');
         // Process the syllabus file upload
-        Route::post('/syllabus/{sectionId}/{subjectId}/{schoolYear}/{semester}',
-            [FacultyController::class, 'storeSyllabus'])
+        Route::post(
+            '/syllabus/{sectionId}/{subjectId}/{schoolYear}/{semester}',
+            [FacultyController::class, 'storeSyllabus']
+        )
             ->name('syllabus.store');
-            Route::get('/syllabus/{id}/download', [FacultyController::class, 'downloadSyllabus'])->name('syllabus.download');
+        Route::get('/syllabus/{id}/download', [FacultyController::class, 'downloadSyllabus'])->name('syllabus.download');
 
-            Route::get('/seatplan/{sectionId}/{subjectId}/{schoolYear}/{semester}/create', [FacultyController::class, 'createSeatPlan'])->name('seatplan.create');
-            Route::post('/seatplan/{sectionId}/{subjectId}/{schoolYear}/{semester}', [FacultyController::class, 'storeSeatPlan'])->name('seatplan.store');
-            Route::get('/seatplan/{sectionId}/{subjectId}/{schoolYear}/{semester}/view', [FacultyController::class, 'viewSeatPlan'])->name('seatplan.view');
+        Route::get('/seatplan/{sectionId}/{subjectId}/{schoolYear}/{semester}/create', [FacultyController::class, 'createSeatPlan'])->name('seatplan.create');
+        Route::post('/seatplan/{sectionId}/{subjectId}/{schoolYear}/{semester}', [FacultyController::class, 'storeSeatPlan'])->name('seatplan.store');
+        Route::get('/seatplan/{sectionId}/{subjectId}/{schoolYear}/{semester}/view', [FacultyController::class, 'viewSeatPlan'])->name('seatplan.view');
         // Assessment
         Route::get('/assessment/{sectionId}/{subjectId}/{schoolYear}/{semester}/create', [FacultyController::class, 'createAssessment'])->name('assessment.create');
         Route::post('/assessment/{sectionId}/{subjectId}/{schoolYear}/{semester}', [FacultyController::class, 'storeAssessment'])->name('assessment.store');
@@ -127,11 +131,11 @@ Route::prefix('faculty')
         Route::post('/reports/download/{sectionId}/{subjectId}/{schoolYear}/{semester}', [FacultyController::class, 'downloadReport'])->name('reports.download');
         Route::get('/reports/view/{id}', [FacultyController::class, 'viewReport'])->name('reports.view');
 
-       // Messages
-Route::get('/messages', [FacultyMessagesController::class, 'index'])->name('messages.index');
-Route::get('/messages/{userId}', [FacultyMessagesController::class, 'getConversation'])->name('messages.conversation');
-Route::post('/messages', [FacultyMessagesController::class, 'sendMessage'])->name('messages.send');
-Route::get('/messages/check/new', [FacultyMessagesController::class, 'checkNewMessages'])->name('messages.check');
+        // Messages
+        Route::get('/messages', [FacultyMessagesController::class, 'index'])->name('messages.index');
+        Route::get('/messages/{userId}', [FacultyMessagesController::class, 'getConversation'])->name('messages.conversation');
+        Route::post('/messages', [FacultyMessagesController::class, 'sendMessage'])->name('messages.send');
+        Route::get('/messages/check/new', [FacultyMessagesController::class, 'checkNewMessages'])->name('messages.check');
     });
 /*
 |--------------------------------------------------------------------------
@@ -139,9 +143,9 @@ Route::get('/messages/check/new', [FacultyMessagesController::class, 'checkNewMe
 |--------------------------------------------------------------------------
 */
 Route::prefix('student')
-    ->middleware(['auth','client'])
+    ->middleware(['auth', 'client'])
     ->name('client.')
-    ->group(function() {
+    ->group(function () {
         // Dashboard
         Route::get('/dashboard', [ClientController::class, 'index'])->name('dashboard');
 

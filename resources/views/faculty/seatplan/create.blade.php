@@ -129,6 +129,12 @@
                                     <i class="fas fa-info-circle"></i> To assign a student to a seat, click on a student from the list then click on an empty seat. To remove a student from a seat, click the "X" button on the occupied seat.
                                 </div>
 
+                                <div class="mb-3 d-flex justify-content-between">
+    <button type="button" id="autoAssignAZ" class="btn btn-outline-primary">Auto-Assign A-Z</button>
+    <button type="button" id="autoAssignShuffle" class="btn btn-outline-secondary">Auto-Assign Shuffle</button>
+</div>
+
+
                                 <div class="seat-plan-container mt-4">
                                     <div class="text-center p-3 bg-secondary text-white mb-3">
                                         <h4>WHITEBOARD</h4>
@@ -200,6 +206,59 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+    document.getElementById('autoAssignAZ').addEventListener('click', function() {
+    autoAssignStudents('alphabetical');
+});
+
+document.getElementById('autoAssignShuffle').addEventListener('click', function() {
+    autoAssignStudents('shuffle');
+});
+
+function autoAssignStudents(mode) {
+    const studentItems = Array.from(document.querySelectorAll('.student-item'));
+    const seatElements = Array.from(document.querySelectorAll('.seat'));
+
+    if (studentItems.length === 0 || seatElements.length === 0) {
+        alert('No students or no seats available.');
+        return;
+    }
+
+    let students = studentItems.map(item => ({
+        id: item.dataset.id,
+        name: item.dataset.name,
+        number: item.dataset.number
+    }));
+
+    if (mode === 'alphabetical') {
+        students.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (mode === 'shuffle') {
+        for (let i = students.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [students[i], students[j]] = [students[j], students[i]];
+        }
+    }
+
+    arrangement = {}; // Clear current arrangement
+
+    // Assign students to seats
+    for (let i = 0; i < seatElements.length && i < students.length; i++) {
+        const seatId = seatElements[i].dataset.seatId;
+        arrangement[seatId] = students[i].id;
+        updateSeatDisplay(seatId);
+    }
+
+    // Update hidden input
+    document.getElementById('arrangementData').value = JSON.stringify(arrangement);
+
+    // Optional: Clear student selection
+    selectedStudent = null;
+    document.querySelectorAll('.student-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+}
+
+
     // Initialize variables
     let selectedStudent = null;
     let arrangement = {};

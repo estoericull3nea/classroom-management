@@ -110,13 +110,14 @@
                                                     <td>{{ $student->student_number }}</td>
                                                     <td>{{ $student->name }}</td>
                                                     <td>
-                                                        <input type="number"
-                                                            class="form-control"
-                                                            name="scores[{{ $student->id }}]"
-                                                            value="{{ $scores[$student->id] ?? '' }}"
-                                                            min="0"
-                                                            max="{{ $assessment->max_score }}"
-                                                            step="0.5">
+                                                    <input type="number"
+    class="form-control"
+    name="scores[{{ $student->id }}]"
+    value="{{ $scores[$student->id] ?? '' }}"
+    min="0"
+    max="{{ $assessment->max_score }}"
+    step="1">
+
                                                     </td>
                                                 </tr>
                                             @empty

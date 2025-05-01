@@ -36,15 +36,15 @@ class AdminController extends Controller
     {
         // Join with users (for faculty name) and subjects (for subject code/name)
         $syllabi = DB::table('syllabi')
-            ->join('users','syllabi.faculty_id','=','users.id')
-            ->join('subjects','syllabi.subject_id','=','subjects.id')
+            ->join('users', 'syllabi.faculty_id', '=', 'users.id')
+            ->join('subjects', 'syllabi.subject_id', '=', 'subjects.id')
             ->select(
                 'syllabi.*',
                 'users.name as faculty_name',
                 'subjects.code as subject_code',
                 'subjects.name as subject_name'
             )
-            ->orderBy('syllabi.upload_timestamp','desc')
+            ->orderBy('syllabi.upload_timestamp', 'desc')
             ->get();
 
         return view('admin.syllabi.index', compact('syllabi'));
@@ -62,27 +62,27 @@ class AdminController extends Controller
         $subject = DB::table('subjects')->where('id', $subjectId)->first();
 
 
-        return view('admin.grading.edit', compact('gradingSystem','subject'));
+        return view('admin.grading.edit', compact('gradingSystem', 'subject'));
     }
 
     public function updateGradingSystem(Request $request, $subjectId)
     {
         $validated = $request->validate([
-            'quiz_percentage'      => 'required|numeric|min:0|max:100',
+            'quiz_percentage' => 'required|numeric|min:0|max:100',
             'unit_test_percentage' => 'required|numeric|min:0|max:100',
-            'activity_percentage'  => 'required|numeric|min:0|max:100',
-            'exam_percentage'      => 'required|numeric|min:0|max:100',
+            'activity_percentage' => 'required|numeric|min:0|max:100',
+            'exam_percentage' => 'required|numeric|min:0|max:100',
         ]);
 
         $gradingSystem = GradingSystem::firstOrNew(['subject_id' => $subjectId]);
-        $gradingSystem->quiz_percentage      = $validated['quiz_percentage'];
+        $gradingSystem->quiz_percentage = $validated['quiz_percentage'];
         $gradingSystem->unit_test_percentage = $validated['unit_test_percentage'];
-        $gradingSystem->activity_percentage  = $validated['activity_percentage'];
-        $gradingSystem->exam_percentage      = $validated['exam_percentage'];
+        $gradingSystem->activity_percentage = $validated['activity_percentage'];
+        $gradingSystem->exam_percentage = $validated['exam_percentage'];
         $gradingSystem->save();
 
         return redirect()->back()
-                         ->with('success','Grading System updated!');
+            ->with('success', 'Grading System updated!');
     }
 
     /**
@@ -96,38 +96,38 @@ class AdminController extends Controller
     public function storeStudent(Request $request)
     {
         $validated = $request->validate([
-            'name'           => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'student_number' => 'required|string|max:255|unique:users,student_number',
-            'major'          => 'nullable|string|max:255',
-            'sex'            => 'required|in:M,F',
-            'course'         => 'required|string|max:255',
-            'year'           => 'required|string|max:255',
-            'password'       => 'required|string|min:8',
+            'major' => 'nullable|string|max:255',
+            'sex' => 'required|in:M,F',
+            'course' => 'required|string|max:255',
+            'year' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
         ]);
 
         User::create([
-            'name'           => $validated['name'],
+            'name' => $validated['name'],
             'student_number' => $validated['student_number'],
-            'major'          => $validated['major'] ?? null,
-            'sex'            => $validated['sex'],
-            'course'         => $validated['course'],
-            'year'           => $validated['year'],
-            'password'       => Hash::make($validated['password']),
-            'user_role'      => 'client', // student
+            'major' => $validated['major'] ?? null,
+            'sex' => $validated['sex'],
+            'course' => $validated['course'],
+            'year' => $validated['year'],
+            'password' => Hash::make($validated['password']),
+            'user_role' => 'client', // student
         ]);
 
         return redirect()->route('admin.dashboard')
-                         ->with('success','Student added successfully!');
+            ->with('success', 'Student added successfully!');
     }
 
     public function deleteStudent($id)
     {
         // Remove the user with role=client
-        $student = User::where('id',$id)->where('user_role','client')->firstOrFail();
+        $student = User::where('id', $id)->where('user_role', 'client')->firstOrFail();
         $student->delete();
 
         return redirect()->route('admin.dashboard')
-                         ->with('success','Student removed successfully!');
+            ->with('success', 'Student removed successfully!');
     }
 
     /**
@@ -148,24 +148,24 @@ class AdminController extends Controller
     public function storeFaculty(Request $request)
     {
         $validated = $request->validate([
-            'name'           => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'student_number' => 'required|string|max:255|unique:users,student_number',
-            'major'          => 'nullable|string|max:255',
-            'sex'            => 'required|in:M,F',
-            'course'         => 'required|string|max:255',
-            'year'           => 'required|string|max:255',
-            'password'       => 'required|string|min:8',
+            'major' => 'nullable|string|max:255',
+            'sex' => 'required|in:M,F',
+            'course' => 'required|string|max:255',
+            'year' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
         ]);
 
         User::create([
-            'name'           => $validated['name'],
+            'name' => $validated['name'],
             'student_number' => $validated['student_number'],
-            'major'          => $validated['major'] ?? null,
-            'sex'            => $validated['sex'],
-            'course'         => $validated['course'],
-            'year'           => $validated['year'],
-            'password'       => Hash::make($validated['password']),
-            'user_role'      => 'faculty',
+            'major' => $validated['major'] ?? null,
+            'sex' => $validated['sex'],
+            'course' => $validated['course'],
+            'year' => $validated['year'],
+            'password' => Hash::make($validated['password']),
+            'user_role' => 'faculty',
         ]);
 
         return redirect()
@@ -218,7 +218,7 @@ class AdminController extends Controller
      * =============== FACULTY ASSIGNMENTS ================
      * Let admin assign a faculty to a brand-new section & subject
      */
-        public function assignFaculty()
+    public function assignFaculty()
     {
         // 1) Load all faculty (user_role = 'faculty')
         $faculty = User::where('user_role', 'faculty')->get();
@@ -249,11 +249,11 @@ class AdminController extends Controller
     {
         // Validate the data
         $validated = $request->validate([
-            'faculty_id'   => 'required|exists:users,id',
+            'faculty_id' => 'required|exists:users,id',
             'section_name' => 'required|string|max:255',
-            'subject_id'   => 'required|exists:subjects,id',
-            'school_year'  => 'required|string|max:20',
-            'semester'     => 'required|in:First,Second,Summer',
+            'subject_id' => 'required|exists:subjects,id',
+            'school_year' => 'required|string|max:20',
+            'semester' => 'required|in:First,Second,Summer',
         ]);
 
         // Format school year consistently
@@ -261,7 +261,7 @@ class AdminController extends Controller
 
         // 1) Create a new row in 'sections' table
         $sectionId = DB::table('sections')->insertGetId([
-            'name'       => $validated['section_name'],
+            'name' => $validated['section_name'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -271,50 +271,50 @@ class AdminController extends Controller
 
         // 3) Insert into 'section_subject' pivot
         DB::table('section_subject')->insert([
-            'faculty_id'  => $validated['faculty_id'],
-            'section_id'  => $sectionId,
-            'subject_id'  => $subjectId,
+            'faculty_id' => $validated['faculty_id'],
+            'section_id' => $sectionId,
+            'subject_id' => $subjectId,
             'school_year' => $schoolYear,
-            'semester'    => $validated['semester'],
-            'created_at'  => now(),
-            'updated_at'  => now(),
+            'semester' => $validated['semester'],
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         // Return to the assignments page
         return redirect()->route('admin.assignments.index')
-            ->with('success','Faculty assigned successfully!');
+            ->with('success', 'Faculty assigned successfully!');
     }
 
     public function deleteFacultyAssignment($id)
-        {
-            // Just remove from pivot
-            DB::table('section_subject')->where('id', $id)->delete();
+    {
+        // Just remove from pivot
+        DB::table('section_subject')->where('id', $id)->delete();
 
-            return redirect()->route('admin.assignments.index')
-                ->with('success','Assignment deleted successfully');
-        }
+        return redirect()->route('admin.assignments.index')
+            ->with('success', 'Assignment deleted successfully');
+    }
 
-        public function facultyClasses($id)
-        {
-            // Show all classes assigned to a particular faculty
-            $faculty = User::findOrFail($id);
+    public function facultyClasses($id)
+    {
+        // Show all classes assigned to a particular faculty
+        $faculty = User::findOrFail($id);
 
-            $classes = DB::table('section_subject')
-                ->where('faculty_id', $id)
-                ->join('sections', 'section_subject.section_id', '=', 'sections.id')
-                ->join('subjects', 'section_subject.subject_id', '=', 'subjects.id')
-                ->select(
-                    'section_subject.*',
-                    'sections.name as section_name',
-                    'subjects.name as subject_name',
-                    'subjects.code as subject_code', // if you have it
-                    'sections.id as section_id',
-                    'subjects.id as subject_id'
-                )
-                ->get();
+        $classes = DB::table('section_subject')
+            ->where('faculty_id', $id)
+            ->join('sections', 'section_subject.section_id', '=', 'sections.id')
+            ->join('subjects', 'section_subject.subject_id', '=', 'subjects.id')
+            ->select(
+                'section_subject.*',
+                'sections.name as section_name',
+                'subjects.name as subject_name',
+                'subjects.code as subject_code', // if you have it
+                'sections.id as section_id',
+                'subjects.id as subject_id'
+            )
+            ->get();
 
-            return view('admin.assignments.faculty-classes', compact('faculty', 'classes'));
-        }
+        return view('admin.assignments.faculty-classes', compact('faculty', 'classes'));
+    }
 
     /**
      * =============== SECTION STUDENTS ================
@@ -333,19 +333,19 @@ class AdminController extends Controller
             ->toArray();
 
         return view('admin.sections.add-students', [
-            'section'         => $section,
-            'allStudents'     => $allStudents,
-            'assignedStudents'=> $assigned,
+            'section' => $section,
+            'allStudents' => $allStudents,
+            'assignedStudents' => $assigned,
         ]);
     }
 
     public function storeSectionStudents(Request $request, $sectionId)
     {
         $validated = $request->validate([
-            'students'   => 'nullable|array',
+            'students' => 'nullable|array',
             'students.*' => 'exists:users,id',
-            'school_year'=> 'required|string|max:20',
-            'semester'   => 'required|in:First,Second,Summer',
+            'school_year' => 'required|string|max:20',
+            'semester' => 'required|in:First,Second,Summer',
         ]);
 
         // Format school year consistently
@@ -360,12 +360,12 @@ class AdminController extends Controller
         if (!empty($validated['students'])) {
             foreach ($validated['students'] as $studentId) {
                 DB::table('section_student')->insert([
-                    'section_id'  => $sectionId,
-                    'student_id'  => $studentId,
+                    'section_id' => $sectionId,
+                    'student_id' => $studentId,
                     'school_year' => $schoolYear,
-                    'semester'    => $validated['semester'],
-                    'created_at'  => now(),
-                    'updated_at'  => now(),
+                    'semester' => $validated['semester'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
             }
         }
@@ -389,7 +389,7 @@ class AdminController extends Controller
             ->get();
 
         return view('admin.assignments.enrolled-students', [
-            'section'          => $section,
+            'section' => $section,
             'enrolledStudents' => $enrolledStudents,
         ]);
     }
@@ -424,15 +424,15 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.subjects.index')
-                         ->with('success','Subject created successfully!');
+            ->with('success', 'Subject created successfully!');
     }
 
     public function editSubject($id)
     {
-        $subject = DB::table('subjects')->where('id',$id)->first();
+        $subject = DB::table('subjects')->where('id', $id)->first();
         if (!$subject) {
             return redirect()->route('admin.subjects.index')
-                             ->withErrors(['Subject not found.']);
+                ->withErrors(['Subject not found.']);
         }
 
         return view('admin.subjects.edit', compact('subject'));
@@ -440,10 +440,10 @@ class AdminController extends Controller
 
     public function updateSubject(Request $request, $id)
     {
-        $subject = DB::table('subjects')->where('id',$id)->first();
+        $subject = DB::table('subjects')->where('id', $id)->first();
         if (!$subject) {
             return redirect()->route('admin.subjects.index')
-                             ->withErrors(['Subject not found.']);
+                ->withErrors(['Subject not found.']);
         }
 
         $validated = $request->validate([
@@ -454,7 +454,7 @@ class AdminController extends Controller
         ]);
 
         DB::table('subjects')
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
                 'code' => $validated['code'] ?? null,
                 'name' => $validated['name'],
@@ -464,6 +464,6 @@ class AdminController extends Controller
             ]);
 
         return redirect()->route('admin.subjects.index')
-                         ->with('success','Subject updated successfully!');
+            ->with('success', 'Subject updated successfully!');
     }
 }

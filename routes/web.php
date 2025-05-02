@@ -136,6 +136,9 @@ Route::prefix('faculty')
         Route::get('/messages/{userId}', [FacultyMessagesController::class, 'getConversation'])->name('messages.conversation');
         Route::post('/messages', [FacultyMessagesController::class, 'sendMessage'])->name('messages.send');
         Route::get('/messages/check/new', [FacultyMessagesController::class, 'checkNewMessages'])->name('messages.check');
+
+        // Attendance
+        Route::post('/attendance/mark', [FacultyController::class, 'markAttendance'])->name('attendance.mark');
     });
 /*
 |--------------------------------------------------------------------------

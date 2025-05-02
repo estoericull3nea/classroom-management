@@ -243,33 +243,67 @@
                                     <div class="tab-content">
                                         <!-- Students Tab -->
                                         <div class="active tab-pane" id="students">
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Student Number</th>
-                                                        <th>Name</th>
-                                                        <th>Sex</th>
-                                                        <th>Course</th>
-                                                        <th>Year</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($students as $student)
+                                            <form method="POST" action="{{ route('faculty.attendance.mark') }}">
+                                                @csrf
+                                                <input type="hidden" name="subject_id" value="{{ $subject->id }}">
+                                                <input type="hidden" name="section_id" value="{{ $section->id }}">
+                                                <input type="hidden" name="school_year" value="{{ $schoolYear }}">
+                                                <input type="hidden" name="semester" value="{{ $semester }}">
+                                        
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <div>
+                                                        <button type="button" class="btn btn-sm btn-secondary" id="attendanceToggle">Toggle Attendance</button>
+                                                        <button type="button" class="btn btn-sm btn-info d-none" id="markAll">Attendance All</button>
+                                                        <button type="button" class="btn btn-sm btn-danger d-none" id="clearAll">Clear</button>
+                                                    </div>
+                                                    <div>
+                                                        <input type="date" name="date" class="form-control form-control-sm" value="{{ now()->toDateString() }}">
+                                                    </div>
+                                                </div>
+                                        
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $student->student_number }}</td>
-                                                            <td>{{ $student->name }}</td>
-                                                            <td>{{ $student->sex }}</td>
-                                                            <td>{{ $student->course }}</td>
-                                                            <td>{{ $student->year }}</td>
+                                                            <th>Mark</th>
+                                                            <th>Student Number</th>
+                                                            <th>Name</th>
+                                                            <th>Sex</th>
+                                                            <th>Course</th>
+                                                            <th>Year</th>
                                                         </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="5" class="text-center">No students enrolled in this
-                                                                class</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @forelse($students as $index => $student)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <input type="checkbox" name="student_ids[]" class="attend-toggle d-none student-check" value="{{ $student->id }}">
+                                                                        <select name="statuses[]" class="form-control form-control-sm ml-2 d-none status-dropdown">
+                                                                            <option value="present">Present</option>
+                                                                            <option value="absent">Absent</option>
+                                                                            <option value="excuse">Excused</option>
+                                                                            <option value="late">Late</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ $student->student_number }}</td>
+                                                                <td>{{ $student->name }}</td>
+                                                                <td>{{ $student->sex }}</td>
+                                                                <td>{{ $student->course }}</td>
+                                                                <td>{{ $student->year }}</td>
+                                                            </tr>
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">No students enrolled in this class</td>
+                                                            </tr>
+                                                        @endforelse
+                                                    </tbody>
+                                                </table>
+                                        
+                                                <div class="text-right">
+                                                    <button type="submit" class="btn btn-success btn-sm d-none" id="submitAttendance">Submit Attendance</button>
+                                                </div>
+                                            </form>
                                         </div>
 
                                         <!-- Assessments Tab -->
@@ -456,6 +490,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-</body>
+
+    <script>
+        const toggleBtn = document.getElementById('attendanceToggle');
+        const markAllBtn = document.getElementById('markAll');
+        const clearAllBtn = document.getElementById('clearAll');
+        const checkboxes = document.querySelectorAll('.attend-toggle');
+        const statusDropdowns = document.querySelectorAll('.status-dropdown');
+        const submitBtn = document.getElementById('submitAttendance');
+    
+        toggleBtn.addEventListener('click', () => {
+            checkboxes.forEach(cb => cb.classList.toggle('d-none'));
+            statusDropdowns.forEach(sd => sd.classList.toggle('d-none'));
+            markAllBtn.classList.toggle('d-none');
+            clearAllBtn.classList.toggle('d-none');
+        });
+    
+        markAllBtn.addEventListener('click', () => {
+            checkboxes.forEach(cb => cb.checked = true);
+            toggleSubmitButton();
+        });
+    
+        clearAllBtn.addEventListener('click', () => {
+            checkboxes.forEach(cb => cb.checked = false);
+            toggleSubmitButton();
+        });
+    
+        function toggleSubmitButton() {
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            submitBtn.classList.toggle('d-none', !anyChecked);
+        }
+    
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', toggleSubmitButton);
+        });
+    </script>
+    
+
+    </body> 
 
 </html>

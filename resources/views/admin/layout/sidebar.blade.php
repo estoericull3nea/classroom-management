@@ -18,7 +18,7 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <div class="img-circle elevation-2 bg-info"
-                     style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;">
+                    style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;">
                     <span class="text-white">{{ $initials }}</span>
                 </div>
             </div>
@@ -31,16 +31,11 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul
-                class="nav nav-pills nav-sidebar flex-column"
-                data-widget="treeview"
-                role="menu"
-                data-accordion="false"
-            >
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Dashboard -->
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}"
-                       class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -49,7 +44,7 @@
                 <!-- Example: Manage Faculty -->
                 <li class="nav-item">
                     <a href="{{ route('admin.faculty.index') }}"
-                       class="nav-link {{ request()->routeIs('admin.faculty.*') ? 'active' : '' }}">
+                        class="nav-link {{ request()->routeIs('admin.faculty.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chalkboard-teacher"></i>
                         <p>Manage Faculty</p>
                     </a>
@@ -58,9 +53,9 @@
                 <!-- Example: Assignments -->
                 <li class="nav-item">
                     <a href="{{ route('admin.assignments.index') }}"
-                       class="nav-link {{ request()->routeIs('admin.assignments.*') ? 'active' : '' }}">
+                        class="nav-link {{ request()->routeIs('admin.assignments.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tasks"></i>
-                        <p>Faculty Assignments</p>
+                        <p>Assign Faculty</p>
                     </a>
                 </li>
 

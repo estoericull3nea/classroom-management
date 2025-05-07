@@ -71,7 +71,7 @@
                     </div>
                     <!-- ./col -->
 
-                    <div class="col-lg-3 col-6">
+                    {{-- <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3>5</h3>
@@ -86,13 +86,13 @@
                                 Add Student <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- ./col -->
 
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>12</h3>
+                                <h3>(Integrating)</h3>
                                 <p>Reports Generated</p>
                             </div>
                             <div class="icon">

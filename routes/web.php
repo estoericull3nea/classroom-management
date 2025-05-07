@@ -41,6 +41,7 @@ Route::prefix('admin')
         Route::get('/students/create', [AdminController::class, 'createStudent'])->name('createStudent');
         Route::post('/students', [AdminController::class, 'storeStudent'])->name('storeStudent');
         Route::delete('/students/{id}', [AdminController::class, 'deleteStudent'])->name('deleteStudent');
+        Route::delete('/faculty/{id}', [AdminController::class, 'deleteFaculty'])->name('deleteFaculty');
 
         // Faculty Management
         Route::get('/faculty', [AdminController::class, 'facultyList'])->name('faculty.index');

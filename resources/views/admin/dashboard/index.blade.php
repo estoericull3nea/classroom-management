@@ -109,6 +109,58 @@
                 </div>
                 <!-- /.row -->
 
+                <!-- FACULTY LIST -->
+<div class="row mt-4" id="facultyList">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h3 class="card-title">Faculty List</h3>
+                <a href="{{ route('admin.faculty.create') }}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-user-plus"></i> Add Faculty
+                </a>
+            </div>
+            <div class="card-body">
+                <table id="facultyTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Major</th>
+                            <th>Sex</th>
+                            <th>Course</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($faculty as $f)
+                            <tr>
+                                <td>{{ $f->name }}</td>
+                                <td>{{ $f->student_number }}</td>
+                                <td>{{ $f->major }}</td>
+                                <td>{{ $f->sex }}</td>
+                                <td>{{ $f->course }}</td>
+                                <td>
+                                    <form action="{{ route('admin.deleteFaculty', $f->id) }}"
+                                          method="POST"
+                                          style="display:inline-block"
+                                          onsubmit="return confirm('Are you sure you want to remove this faculty?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i> Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div><!-- /.card-body -->
+        </div><!-- /.card -->
+    </div><!-- /.col -->
+</div>
+
+
                 <!-- STUDENT LIST -->
                 <div class="row" id="studentList">
                     <div class="col-12">
@@ -244,6 +296,7 @@
 
 <script>
     $(function() {
+        $('#facultyTable').DataTable();
         $('#studentTable').DataTable();
         $('#subjectTable').DataTable();
     });

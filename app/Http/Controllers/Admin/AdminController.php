@@ -20,10 +20,27 @@ class AdminController extends Controller
     {
         $user = Auth::user();
         $students = User::where('user_role', 'client')->get();
+        $faculty = User::where('user_role', 'faculty')->get();
         $subjects = DB::table('subjects')->orderBy('name')->get();
 
-        return view('admin.dashboard.index', compact('students', 'subjects', 'user'));
+        return view('admin.dashboard.index', compact('students', 'faculty', 'subjects', 'user'));
+
     }
+
+    // Function to Delete Faculty
+    public function deleteFaculty($id)
+    {
+        $faculty = User::where('id', $id)->where('user_role', 'faculty')->first();
+
+        if (!$faculty) {
+            return back()->withErrors(['Faculty not found.']);
+        }
+
+        $faculty->delete();
+
+        return back()->with('success', 'Faculty removed successfully.');
+    }
+
 
 
 
